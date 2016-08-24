@@ -37,7 +37,7 @@ end
 tracker = IPTracker.new
 
 port = (ENV["PORT"]? || 8080).to_i
-server = HTTP::Server.new(port) do |context|
+server = HTTP::Server.new("0.0.0.0", port) do |context|
   ip = context.request.headers["X-Forwarded-For"]?
   count = tracker.check(ip) ? nextval : currval
   context.response.content_type = "application/json"
