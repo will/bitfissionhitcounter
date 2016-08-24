@@ -1,0 +1,11 @@
+name: hitcounter
+version: 0.1.0
+
+description: |
+  a nice hitcounter for counting hits
+
+dependencies:
+  pg:
+    github: will/crystal-pg
+
+license: MIT
