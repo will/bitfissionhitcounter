@@ -13,6 +13,7 @@ class IPTracker
 
   def check(ip)
     return true unless ip
+    ip = ip.split(",").first
 
     @m.synchronize do
       if @deq.includes?(ip)
