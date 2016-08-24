@@ -40,8 +40,11 @@ port = (ENV["PORT"]? || 8080).to_i
 server = HTTP::Server.new("0.0.0.0", port) do |context|
   ip = context.request.headers["X-Forwarded-For"]?
   count = tracker.check(ip) ? nextval : currval
-  context.response.content_type = "application/json"
-  context.response.print %({"count": "#{count.to_s}"})
+  res = context.response
+  res.content_type = "application/json"
+  res.headers.add("Access-Control-Allow-Origin", "*")
+  res.headers.add("Access-Control-Allow-Methods", "GET")
+  res.print %({"count": "#{count.to_s}"})
 end
 
 puts "listening on #{port}"
