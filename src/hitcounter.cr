@@ -1,7 +1,7 @@
 require "http/server"
 require "pg"
 
-DB = PG.connect(ENV["DATABASE_URL"]? || "postgres:///")
+PDB = PG.connect(ENV["DATABASE_URL"]? || "postgres:///")
 
 class IPTracker
   SIZE = 10
@@ -31,7 +31,7 @@ class Counter
   getter count : Int64
 
   def initialize
-    @count = DB.exec({Int64}, "select count from hits limit 1").rows.first.first
+    @count = PDB.query_one("select count from hits limit 1", &.read(Int64))
     @m = Mutex.new
     async_save_loop
   end
@@ -42,7 +42,7 @@ class Counter
   end
 
   private def save
-    DB.exec("update hits set count = $1", [count])
+    PDB.exec("update hits set count = $1", [count])
   end
 
   private def async_save_loop
