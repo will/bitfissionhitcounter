@@ -65,7 +65,7 @@ server = HTTP::Server.new("0.0.0.0", port) do |context|
   res = context.response
   res.content_type = "application/json"
   #  res.headers.add("Access-Control-Allow-Origin", "*")
-  res.headers.add("Access-Control-Allow-Origin", "http://bitfission.com")
+  res.headers.add("Access-Control-Allow-Origin", "https://bitfission.com")
   res.headers.add("Access-Control-Allow-Methods", "GET")
   res.print %({"count": "#{count.to_s}"})
 end
