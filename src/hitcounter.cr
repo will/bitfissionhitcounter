@@ -61,12 +61,11 @@ counter = Counter.new
 port = (ENV["PORT"]? || 8080).to_i
 server = HTTP::Server.new("0.0.0.0", port) do |context|
   ip = context.request.headers["X-Forwarded-For"]?
-  pp context.request.headers
   count = tracker.check(ip) ? counter.inc : counter.count
   res = context.response
   res.content_type = "application/json"
   #  res.headers.add("Access-Control-Allow-Origin", "*")
-  res.headers.add("Access-Control-Allow-Origin", "https://bitfission.com")
+  res.headers.add("Access-Control-Allow-Origin", "http#{'s' if context.request.headers["Origin"][4] == 's'}://bitfission.com")
   res.headers.add("Access-Control-Allow-Methods", "GET")
   res.print %({"count": "#{count.to_s}"})
 end
