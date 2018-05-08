@@ -61,6 +61,7 @@ counter = Counter.new
 port = (ENV["PORT"]? || 8080).to_i
 server = HTTP::Server.new("0.0.0.0", port) do |context|
   ip = context.request.headers["X-Forwarded-For"]?
+  pp context.request.headers
   count = tracker.check(ip) ? counter.inc : counter.count
   res = context.response
   res.content_type = "application/json"
